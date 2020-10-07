@@ -1,7 +1,7 @@
 terraform {
   required_version = "~>0.12"
   backend "remote" {
-    organization = "datapunks"
+    organization = "servian-app"
     workspaces {
       name = "iac_gke_cluster"
     }
