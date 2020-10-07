@@ -17,9 +17,30 @@ jobs:
             terraform init
             terraform plan -var credentials=$HOME/gcloud_keys.json -out=plan.txt
             terraform apply plan.txt
-    
+
+  gke_deploy_app:
+    docker: 
+      - image: ariv3ra/terraform-gcp:latest
+    environment:
+      CLOUDSDK_CORE_PROJECT: servian-tech-challenge
+    steps:
+      - checkout
+      - run:
+          name: Deploy app on GKE
+          command: |
+            echo $GOOGLE_CLOUD_KEYS | base64 -d > $HOME/gcloud_keys.json
+            gcloud auth activate-service-account --key-file=${HOME}/gcloud_keys.json
+            gcloud config set project servian-tech-challenge
+            gcloud config set compute/zone asia-southeast1-a
+            gcloud container clusters get-credentials servian-app
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            bash ./deploy.sh
+
 workflows:
   build_test:
     jobs:
       - gke_create_cluster
+      - gke_deploy_app:
+          requires:
+            - gke_create_cluster
 
