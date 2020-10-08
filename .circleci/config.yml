@@ -20,7 +20,7 @@ jobs:
 
   gke_deploy_app:
     docker: 
-      - image: ariv3ra/terraform-gcp:latest
+      - image: circleci/ruby:2.4.1
     environment:
       CLOUDSDK_CORE_PROJECT: servian-tech-challenge
     steps:
@@ -29,6 +29,9 @@ jobs:
           name: Deploy app on GKE
           command: |
             echo $GOOGLE_CLOUD_KEYS | base64 -d > $HOME/gcloud_keys.json
+            curl https://sdk.cloud.google.com | bash > /dev/null;
+            source $HOME/google-cloud-sdk/path.bash.inc
+            gcloud components update kubectl
             gcloud auth activate-service-account --key-file=${HOME}/gcloud_keys.json
             gcloud config set project servian-tech-challenge
             gcloud config set compute/zone asia-southeast1-a
