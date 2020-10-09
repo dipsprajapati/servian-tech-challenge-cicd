@@ -58,8 +58,8 @@ jobs:
             gcloud config set project servian-tech-challenge
             gcloud config set compute/zone us-central1-a
             gcloud container clusters get-credentials servian-app-v2
-            echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
-            bash ./deploy.sh
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+            # bash ./deploy.sh
 
 workflows:
   build_test:
