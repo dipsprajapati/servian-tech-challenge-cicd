@@ -18,12 +18,33 @@ jobs:
             terraform plan -var credentials=$HOME/gcloud_keys.json -out=plan.txt
             terraform apply plan.txt
 
+  # gke_deploy_app:
+  #   docker: 
+  #     - image: circleci/ruby:2.4.1
+  #   environment:
+  #     CLOUDSDK_CORE_PROJECT: servian-tech-challenge
+  #     CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Deploy app on GKE
+  #         command: |
+  #           echo $GOOGLE_CLOUD_KEYS | base64 -d > $HOME/gcloud_keys.json
+  #           curl https://sdk.cloud.google.com | bash > /dev/null;
+  #           source $HOME/google-cloud-sdk/path.bash.inc
+  #           gcloud components update kubectl
+  #           gcloud auth activate-service-account --key-file=${HOME}/gcloud_keys.json
+  #           gcloud config set project servian-tech-challenge
+  #           gcloud config set compute/zone us-central1-a
+  #           gcloud container clusters get-credentials servian-app
+  #           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+  #           bash ./deploy.sh
+
   gke_deploy_app:
-    docker: 
-      - image: circleci/ruby:2.4.1
     environment:
       CLOUDSDK_CORE_PROJECT: servian-tech-challenge
       CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+    machine: true
     steps:
       - checkout
       - run:
@@ -35,8 +56,8 @@ jobs:
             gcloud components update kubectl
             gcloud auth activate-service-account --key-file=${HOME}/gcloud_keys.json
             gcloud config set project servian-tech-challenge
-            gcloud config set compute/zone asia-southeast1-a
-            gcloud container clusters get-credentials servian-app
+            gcloud config set compute/zone us-central1-a
+            gcloud container clusters get-credentials servian-app-v2
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
             bash ./deploy.sh
 
