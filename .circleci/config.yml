@@ -60,7 +60,7 @@ jobs:
             gcloud config set compute/zone us-central1-a
             gcloud container clusters get-credentials servian-app-v2
             docker logout
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+            echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
             # bash ./deploy.sh
 
 workflows:
