@@ -21,7 +21,7 @@ jobs:
 
   gke_deploy_app:
     docker: 
-      - image: cimg/base:2020.10
+      - image: circleci/node:12
     environment:
       CLOUDSDK_CORE_PROJECT: servian-tech-challenge
       CLOUDSDK_CORE_DISABLE_PROMPTS: 1
