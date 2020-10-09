@@ -37,7 +37,7 @@ jobs:
             gcloud auth activate-service-account --key-file=${HOME}/gcloud_keys.json
             gcloud config set project servian-tech-challenge
             gcloud config set compute/zone us-central1-a
-            gcloud container clusters get-credentials servian-app
+            gcloud container clusters get-credentials servian-app-v2
             echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
             # bash ./deploy.sh
 
