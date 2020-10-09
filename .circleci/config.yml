@@ -50,6 +50,8 @@ jobs:
       - run:
           name: Deploy app on GKE
           command: |
+            docker logout
+            echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
             echo $GOOGLE_CLOUD_KEYS | base64 -d > $HOME/gcloud_keys.json
             curl https://sdk.cloud.google.com | bash > /dev/null;
             source $HOME/google-cloud-sdk/path.bash.inc
@@ -58,8 +60,6 @@ jobs:
             gcloud config set project servian-tech-challenge
             gcloud config set compute/zone us-central1-a
             gcloud container clusters get-credentials servian-app-v2
-            docker logout
-            echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
             sudo ./deploy.sh
 
 workflows:
