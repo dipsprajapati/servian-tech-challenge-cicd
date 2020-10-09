@@ -60,7 +60,7 @@ jobs:
             gcloud container clusters get-credentials servian-app-v2
             docker logout
             echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
-  #           bash ./deploy.sh
+            bash ./deploy.sh
 
 workflows:
   build_test:
