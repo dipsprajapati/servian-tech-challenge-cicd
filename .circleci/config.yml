@@ -60,7 +60,11 @@ jobs:
             gcloud config set project servian-tech-challenge
             gcloud config set compute/zone us-central1-a
             gcloud container clusters get-credentials servian-app-v2
-            sudo ./deploy.sh
+            # sudo ./deploy.sh
+            docker build -t dipsprajapati/serviantechchallenge-app:latest -f ./TechChallengeAppResponse/TechChallengeApp/Dockerfile ./TechChallengeAppResponse/TechChallengeApp
+            docker push dipsprajapati/serviantechchallenge-app:latest
+            kubectl apply -f k8s
+            kubectl set image deployments/app-deployment app=dipsprajapati/serviantechchallenge-app:latest
 
 workflows:
   build_test:
