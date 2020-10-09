@@ -5,4 +5,4 @@ docker push dipsprajapati/serviantechchallenge-app:latest
 #docker push dipsprajapati/serviantechchallenge-app:$SHA
 
 kubectl apply -f k8s
-kubectl set image deployments/app-deployment app=dipsprajapati/serviantechchallenge-app:$SHA
+kubectl set image deployments/app-deployment app=dipsprajapati/serviantechchallenge-app:latest
