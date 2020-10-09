@@ -17,6 +17,7 @@ jobs:
             terraform init
             terraform plan -var credentials=$HOME/gcloud_keys.json -out=plan.txt
             terraform apply plan.txt
+            
 
   # gke_deploy_app:
   #   docker: 
@@ -58,6 +59,7 @@ jobs:
             gcloud config set project servian-tech-challenge
             gcloud config set compute/zone us-central1-a
             gcloud container clusters get-credentials servian-app-v2
+            docker logout
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
             # bash ./deploy.sh
 
